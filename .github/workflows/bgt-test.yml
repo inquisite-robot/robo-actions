@@ -1,0 +1,20 @@
+name: testing github actions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  first_job:
+    runs-on: ubunutu-latest
+    steps:
+      - name: Welcome message
+        run: echo "learning the gh actions using BGT"
+
+      - name: testing captain
+        run: echo "Bumrah should be the captain!!!"
+
+      - name: List the files
+        run: ls -lah
+
+      - name: add stuff to readme file
+        run: cat README.md
