@@ -9,14 +9,26 @@ jobs:
       - name: Checkout code  
         uses: actions/checkout@main
         
-      - name: Welcome message
-        run: echo "learning the gh actions using BGT"
+      - name: Welcome and list files
+        run: |
+          echo "learning the gh actions using BGT"
+          ls -lahrt
+          echo "Bumrah should be the captain!!!"
+          cat README.md
+
+      - name: Install the cowsay program
+        run: sudo apt-get install cowsay -y
+
+      - name: Excecute cowsay CMD
+        run: cowsay -f dragon "Run..run..run benchod..DRAGON...bhag saale" >> dragon.txt
+
+      - name: Find the drgon file
+        run:  grep -i "dragon" dragon.txt 
+
+      - name: read file
+        run: cat dragon.txt
+
+      - name: say tata
+        run: echo "Tata..bye-bye see you..!!!"
         
-      - name: testing captain
-        run: echo "Bumrah should be the captain!!!"
-        
-      - name: List the files
-        run: ls -lah
-        
-      - name: add stuff to readme file
-        run: cat README.md
+
