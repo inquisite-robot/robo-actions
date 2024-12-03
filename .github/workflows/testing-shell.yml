@@ -1,0 +1,22 @@
+name: testing github actions
+on:
+  workflow_dispatch:
+
+jobs:
+  first_job:
+    runs-on: ubuntu-latest   
+    steps:
+      - name: Checkout code  
+        uses: actions/checkout@main
+      
+      - name: Listing the files here and the path
+        run : ls -lhart
+              echo "the path is..$(pwd)"
+
+      - name: Welcome oboard shell script
+        run: |
+          echo "Initiating shell script...."
+          sudo chmod +x ./sshconnect.sh
+          ./sshconnect.sh
+          ls -lahrt
+          
