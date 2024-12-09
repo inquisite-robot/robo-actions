@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "Initiating shell script...."
           echo "The path is $(pwd) " 
-          sudo chmod +x ./.github/workflows/sshconnect.sh
+          sudo chmod +x sshconnect.sh
           ./sshconnect.sh
           ls -lahrt
           
