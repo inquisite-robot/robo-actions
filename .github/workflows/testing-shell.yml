@@ -17,7 +17,8 @@ jobs:
       - name: Welcome oboard shell script
         run: |
           echo "Initiating shell script...."
-          sudo chmod +x ./sshconnect.sh
+          echo "The path is $(pwd) " 
+          sudo chmod +x ./.github/workflows/sshconnect.sh
           ./sshconnect.sh
           ls -lahrt
           
