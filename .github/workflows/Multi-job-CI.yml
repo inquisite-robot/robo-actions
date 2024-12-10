@@ -1,0 +1,74 @@
+name: Multi-Job Workflow Demo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  job1:
+    name: First Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Hello from Job 1!"
+      
+      - name: Create artifact
+        run: |
+          echo "This data was created in Job 1" > output.txt
+          echo "Timestamp: $(date)" >> output.txt
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: job1-output
+          path: output.txt
+
+  job2:
+    name: Second Job
+    needs: job1  # This job will wait for job1 to complete
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: job1-output
+      
+      - name: Read artifact
+        run: cat output.txt
+      
+      - name: Create environment variable
+        run: echo "MY_VAR=Hello from Job 2" >> $GITHUB_ENV
+      
+      - name: Use environment variable
+        run: echo $MY_VAR
+
+  job3:
+    name: Third Job (Independent)
+    runs-on: ubuntu-latest
+    steps:
+      - name: System info
+        run: |
+          echo "This job runs in parallel with Job 1"
+          echo "OS Information:"
+          uname -a
+          echo "Memory Information:"
+          free -h
+      
+      - name: Random number
+        run: |
+          echo "Random number: $RANDOM"
+
+  job4:
+    name: Fourth Job (With Matrix)
+    needs: [job2, job3]  # This job will wait for both job2 and job3
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [10, 12, 14]
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Matrix Info
+        run: |
+          echo "Running with version ${{ matrix.version }}"
+          echo "Operating System: ${{ matrix.os }}"
